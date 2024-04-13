@@ -28,15 +28,44 @@ from .forms import RegisterForm
         
     # return HttpResponse("form submitted")
        
+# def register(request):
+#       # Handling forms with form class
+#       form = RegisterForm()
+#       return render(
+#           request,
+#           "basicForms/register.html",
+#           {
+#               "form":form,
+#           }
+#       )
+
 def register(request):
-      form = RegisterForm()
-      return render(
+       if request.method == "POST":
+              form = RegisterForm(request.POST)
+              if form.is_valid():
+                     return HttpResponseRedirect("/form-submitted")
+              else:
+                #if form is not valid render this
+                return render(
           request,
-          "basicForms/register.html",
-          {
-              "form":form,
-          }
-      )
+           "basicForms/register.html",
+           {
+               "form":form,
+           }
+     )
+       else:
+             #if method is not post render this
+             form=RegisterForm()
+             return render(
+                   request,
+                   "basicForms/register.html",
+           {
+               "form":form,
+           }
+
+             )
+              
+             
 
 def form_submitted(request):
        return render(request,"basicForms/form_submitted.html")

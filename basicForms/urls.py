@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path("",views.register),
-    # path("form-submitted/",views.form_submitted)   
+    path("form-submitted/",views.form_submitted)   
 ]

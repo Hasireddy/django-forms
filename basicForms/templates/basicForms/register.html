@@ -4,12 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Forms</title>
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'basicForms/styles.css' %}">
+    {% block title %}
+    <title>digiAct Abfall</title>
+  {% endblock %}
   </head>
   <body>
     <form action="/" method="post">
         {% csrf_token %}
-        {{form}}
+        {% comment %} Accessing whole form {% endcomment %}
+        {% comment %} {{form.}} {% endcomment %}
+
+        {% comment %} Accessing each field seperately {% endcomment %}
+        {% comment %} {{form.firstname.label_tag}}
+        {{form.firstname}}
+        {{form.firstname.errors}}
+        {{form.lastname.label_tag}}
+        {{form.lastname}}  {% endcomment %}
+
+        {% comment %} Accessing the form fileds using for loop {% endcomment %}
+
+        {% for field in form %}
+        <div class="form-control {% if field.errors %}errors{% endif %}">
+            {{field.label_tag}}
+            {{field}}
+            {{field.errors}}
+        </div>
+        {% endfor %}
         {% comment %} {% if has_error%}
         <p>Incorrect data</p>
         {% endif %} {% endcomment %}
