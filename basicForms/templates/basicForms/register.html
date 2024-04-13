@@ -26,7 +26,7 @@
         {% comment %} Accessing the form fileds using for loop {% endcomment %}
 
         {% for field in form %}
-        <div class="form-control {% if field.errors %}errors{% endif %}">
+        <div class="form-control {% if field.errors %}errors errorlist{% endif %}">
             {{field.label_tag}}
             {{field}}
             {{field.errors}}

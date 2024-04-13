@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect,HttpResponse
 from .forms import RegisterForm
+from .models import Register
 
 # Create your views here.
 # def register(request):
@@ -39,33 +40,63 @@ from .forms import RegisterForm
 #           }
 #       )
 
+#   view with form class       
+# def register(request):
+#        if request.method == "POST":
+#               form = RegisterForm(request.POST)
+#               if form.is_valid():
+#                      return HttpResponseRedirect("/form-submitted")
+#               else:
+#                 #if form is not valid render this
+#                 return render(
+#           request,
+#            "basicForms/register.html",
+#            {
+#                "form":form,
+#            }
+#      )
+#        else:
+#              #if method is not post render this
+#              form=RegisterForm()
+#              return render(
+#                    request,
+#                    "basicForms/register.html",
+#            {
+#                "form":form,
+#            }
+
+#              )
+              
+#   view with models  
+
 def register(request):
        if request.method == "POST":
-              form = RegisterForm(request.POST)
+              form = RegisterForm(request.post)   
               if form.is_valid():
-                     return HttpResponseRedirect("/form-submitted")
+                     register=Register(
+                            firstname = form.cleaned_data("firstname"),
+                            lastname = form.cleaned_data("lastname"),
+                     )  
+                     register.save()
+                     return HttpResponseRedirect("/form-submitted")   
               else:
-                #if form is not valid render this
-                return render(
-          request,
-           "basicForms/register.html",
-           {
-               "form":form,
-           }
-     )
+                     return render(
+                            request,
+                            "basicForms/register.html",
+                            {
+                                   "form":form
+                            }
+                     ) 
        else:
-             #if method is not post render this
-             form=RegisterForm()
-             return render(
-                   request,
-                   "basicForms/register.html",
-           {
-               "form":form,
-           }
-
-             )
+              form = RegisterForm()
+              return render(
+                            request,
+                            "basicForms/register.html",
+                            {
+                                   "form":form
+                            }
+                     ) 
               
-             
 
 def form_submitted(request):
        return render(request,"basicForms/form_submitted.html")
